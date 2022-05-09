@@ -1,0 +1,30 @@
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #1d5c63;
+}
+.content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #eeeeee;
+}
+.button {
+	float: right;
+}
+.logout {
+	cursor: pointer;
+	font-weight: bolder;
+}
+.logout:hover {
+	color: #fff;
+	transition: 1;
+}
+.separator {
+	color: #fff;
+	padding: 0 10px;
+}
+.text {
+	color: #f9ebde;
+}

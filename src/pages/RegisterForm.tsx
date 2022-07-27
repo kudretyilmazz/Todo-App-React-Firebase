@@ -4,41 +4,42 @@ import Input from "src/components/input/Input";
 import InputPassword from "src/components/input/InputPassword";
 import Button from "src/components/button/Button";
 import styles from "src/asset/style/LoginForm.module.css";
-import { useNavigate } from "react-router-dom";
-
-import { loginUser } from "src/firebase";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { registerUser } from "src/firebase";
 
 //loginInfo
+export const user = { username: "kudret", password: "123456kudret" };
 
-// Interface
-interface loginProps {
+interface RegisterProps {
 	setRegister: (status) => void;
 }
 
-function LoginForm(props: loginProps) {
+function RegisterForm(props: RegisterProps) {
 	// Props Destruction
 	const { setRegister } = props;
 
-	// variables
-	const navigate = useNavigate();
-
-	// actions
+	//Actions
 	const Handler = async (values: any) => {
-		await loginUser(values?.username, values?.password);
-		navigate("/todo");
+		await registerUser(values?.email, values?.password);
+		setRegister(true);
 	};
 
 	return (
 		<div className={styles.container}>
-			<Form className={styles.form} name="LoginForm" onFinish={Handler}>
-				<h2>Login</h2>
+			<Form className={styles.form} name="RegisterForm" onFinish={Handler}>
+				<h2>Register</h2>
 				<FormItem
-					label="Username"
-					name="username"
-					rules={[{ required: true, message: "Please input your username!" }]}
+					label="E-mail"
+					name="email"
+					rules={[
+						{ required: true, message: "Please input your email!" },
+						{
+							type: "email",
+							message: "The input is not valid E-mail!",
+						},
+					]}
 				>
-					<Input name="username" prefix={<UserOutlined />} />
+					<Input name="email" prefix={<UserOutlined />} />
 				</FormItem>
 
 				<FormItem
@@ -49,17 +50,17 @@ function LoginForm(props: loginProps) {
 					<InputPassword name="password" prefix={<LockOutlined />} />
 				</FormItem>
 				<FormItem style={{ float: "right" }} className={styles.button}>
-					<Button name="LoginFormButton" label="Login" type="ghost" htmlType="submit"></Button>
+					<Button
+						name="RegisterFormButton"
+						label="Register"
+						type="ghost"
+						htmlType="submit"
+					></Button>
 				</FormItem>
-				<Button
-					name="registerGo"
-					label="< register now"
-					onClick={() => setRegister(false)}
-					type="link"
-				/>
+				<Button name="loginGo" label="< Login" onClick={() => setRegister(true)} type="link" />
 			</Form>
 		</div>
 	);
 }
 
-export default LoginForm;
+export default RegisterForm;

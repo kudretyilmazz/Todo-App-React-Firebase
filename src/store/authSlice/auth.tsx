@@ -1,27 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit';
-
-interface authState {
-	value: boolean;
-}
+import { createSlice } from "@reduxjs/toolkit";
 
 // Define the initial state using that type
-const initialState: authState = {
-	value: false,
+const initialState = {
+	user: null,
 };
 
 const authSlice = createSlice({
-	name: 'auth',
+	name: "auth",
 	initialState,
 	reducers: {
-		Login: state => {
-			state.value = true;
+		Login: (state, action) => {
+			state.user = action.payload;
 		},
 		Logout: state => {
-			state.value = false;
+			state.user = null;
 		},
 	},
 });
 
 export const { Login, Logout } = authSlice.actions;
-export const selectAuth = state => state.auth.value;
 export default authSlice.reducer;

@@ -1,39 +1,42 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import TodoList from 'src/pages/todoList/TodoList';
-import LoginForm from 'src/pages/LoginForm';
-import NotFound from 'src/pages/NotFound';
-import LayoutTemplate from 'src/pages/LayoutTemplate';
-import { useAppSelector } from 'src/store/hooks';
+import { useState } from "react";
+
+import { Routes, Route, Navigate } from "react-router-dom";
+import TodoList from "src/pages/todoList/TodoList";
+import LoginForm from "src/pages/LoginForm";
+import NotFound from "src/pages/NotFound";
+import LayoutTemplate from "src/pages/LayoutTemplate";
+import RegisterForm from "src/pages/RegisterForm";
+import { useAppSelector } from "src/store/hooks";
 function RouterConfig() {
-	const authStatus = useAppSelector(state => state.auth.value);
+	// usestates
+	const [register, setRegister] = useState<boolean>(true);
+
+	// Variables
+	const authStatus = useAppSelector(state => state.auth.user);
 	return (
 		<Routes>
 			<Route
-				path='/'
+				path="/"
 				element={
-					!authStatus ? (
-						<LayoutTemplate>
-							<LoginForm />
-						</LayoutTemplate>
-					) : (
-						<Navigate to='/todo' />
-					)
+					<LayoutTemplate>
+						{!authStatus ? (
+							register ? (
+								<LoginForm setRegister={setRegister} />
+							) : (
+								<RegisterForm setRegister={setRegister} />
+							)
+						) : (
+							<Navigate to="/" />
+						)}
+					</LayoutTemplate>
 				}
 			/>
 			<Route
-				path='/todo'
-				element={
-					authStatus ? (
-						<LayoutTemplate>
-							<TodoList />
-						</LayoutTemplate>
-					) : (
-						<Navigate to='/' />
-					)
-				}
+				path="/todo"
+				element={<LayoutTemplate>{authStatus ? <TodoList /> : <Navigate to="/" />}</LayoutTemplate>}
 			/>
 			<Route
-				path='*'
+				path="*"
 				element={
 					<LayoutTemplate>
 						<NotFound />

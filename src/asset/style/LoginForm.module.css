@@ -1,8 +1,5 @@
 .container {
-	height: 91vh;
+	height: calc(100vh - 64px);
 	display: flex;
 	align-items: center;
-}
-.heading {
-	display: inline-block;
 }
